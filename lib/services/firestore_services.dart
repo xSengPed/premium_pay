@@ -13,20 +13,35 @@ enum YtUser {
 class FirestoreServices {
   static FirebaseFirestore? firestore;
   FirestoreServices.init() {
-    log('init fs');
     firestore = FirebaseFirestore.instance;
   }
 
-  static getSubscribedMember() async {
+  static Future<int> getSubscribedMember() async {
     firestore = FirebaseFirestore.instance;
     String collectionName = "subscribe_member";
     try {
       final CollectionReference collectionReference =
           firestore!.collection(collectionName);
       final QuerySnapshot querySnapshot = await collectionReference.get();
-      log(querySnapshot.docs.length.toString());
+      return querySnapshot.docs.length;
     } catch (e) {
-      log(e.toString());
+      throw e;
+    }
+  }
+
+  static Future getCreatePermission() async {
+    try {
+      final int memberCount = await getSubscribedMember();
+      if (memberCount >= 0 && memberCount != 6) {
+        return true;
+      } else {
+        throw {
+          "title": "Cannot Create Member",
+          "desc": "The members reach maximum limit.",
+        };
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
@@ -41,6 +56,15 @@ class FirestoreServices {
     } catch (e) {
       log(e.toString());
       return null;
+    }
+  }
+
+  static createSubscribedMember(UserProfile member) async {
+    try {
+      await firestore!.collection("subscribe_member").add(member.toJson());
+    } catch (e) {
+      log(e.toString());
+      throw e;
     }
   }
 }

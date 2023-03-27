@@ -31,7 +31,7 @@ class Alert {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(title ?? "Title",
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500)),
+                            fontSize: 16, fontWeight: FontWeight.w600)),
                   ),
                   Row(
                     mainAxisAlignment: descAlignment ?? MainAxisAlignment.start,
@@ -50,6 +50,7 @@ class Alert {
                         visible: !okOnly,
                         child: Expanded(
                             child: SxButton(
+                                shape: SxButtonShape.rounded,
                                 backgroundColor: Colors.grey[500],
                                 onTap: cancelSubmit ??
                                     () {
@@ -65,6 +66,8 @@ class Alert {
                       ),
                       Expanded(
                           child: SxButton(
+                              shape: SxButtonShape.rounded,
+                              backgroundColor: Colors.red[700],
                               onTap: okSubmit ??
                                   () {
                                     Navigator.pop(context);
