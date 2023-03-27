@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "699818837486",
+    "project_id": "ytp-paid-system",
+    "storage_bucket": "ytp-paid-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699818837486:android:332cadadc8da1bad463aff",
+        "android_client_info": {
+          "package_name": "com.example.flutter_yt_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699818837486-t57agik7n7uqu7oqn57siupf131e73a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGeKewttfjlXBbpTuBX9zP8lXiBL3EFNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699818837486-t57agik7n7uqu7oqn57siupf131e73a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
