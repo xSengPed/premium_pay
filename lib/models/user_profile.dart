@@ -1,31 +1,48 @@
 class UserProfile {
-  String? gmail;
-  bool? isAdmin;
+  String? uuid;
+  String? name;
+  String? email;
+  String? mobileNo;
+  bool? admin;
   bool? paid;
-  String? tel;
-  String? uid;
-  int? value;
+  String? lastPaid;
+  String? expired;
+  int? overdue;
 
   UserProfile(
-      {this.gmail, this.isAdmin, this.paid, this.tel, this.uid, this.value});
+      {this.uuid,
+      this.name,
+      this.email,
+      this.mobileNo,
+      this.admin,
+      this.paid,
+      this.lastPaid,
+      this.expired,
+      this.overdue});
 
   UserProfile.fromJson(Map<String, dynamic> json) {
-    gmail = json['gmail'];
-    isAdmin = json['isAdmin'];
+    uuid = json['uuid'];
+    name = json['name'];
+    email = json['email'];
+    mobileNo = json['mobile_no'];
+    admin = json['admin'];
     paid = json['paid'];
-    tel = json['tel'];
-    uid = json['uid'];
-    value = json['value'];
+    lastPaid = json['last_paid'];
+    expired = json['expired'];
+    overdue = json['overdue'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['gmail'] = this.gmail;
-    data['isAdmin'] = this.isAdmin;
+    data['uuid'] = this.uuid;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['mobile_no'] = this.mobileNo;
+    data['admin'] = this.admin;
     data['paid'] = this.paid;
-    data['tel'] = this.tel;
-    data['uid'] = this.uid;
-    data['value'] = this.value;
+    data['last_paid'] = this.lastPaid;
+    data['expired'] = this.expired;
+    data['overdue'] = this.overdue;
     return data;
   }
 }

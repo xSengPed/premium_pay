@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 
 enum YtUser {
@@ -29,15 +28,15 @@ class FirestoreServices {
     }
   }
 
-  static Future getCreatePermission() async {
+  static Future<bool> getCreatePermission() async {
     try {
       final int memberCount = await getSubscribedMember();
       if (memberCount >= 0 && memberCount != 6) {
         return true;
       } else {
         throw {
-          "title": "Cannot Create Member",
-          "desc": "The members reach maximum limit.",
+          "title": "ไม่สามารถเพิ่มสมาชิกได้",
+          "desc": "เนื่องจากจำนวนสมาชิก ได้ถูกเพิ่มครบแล้ว",
         };
       }
     } catch (e) {
@@ -49,7 +48,7 @@ class FirestoreServices {
     try {
       final Query query = firestore!
           .collection("subscribe_member")
-          .where("gmail", isEqualTo: email);
+          .where("email", isEqualTo: email);
       final snapshot = await query.get();
       String encodedJson = jsonEncode(snapshot.docs.first.data());
       return UserProfile.fromJson(jsonDecode(encodedJson));
@@ -64,6 +63,18 @@ class FirestoreServices {
       await firestore!.collection("subscribe_member").add(member.toJson());
     } catch (e) {
       log(e.toString());
+      throw e;
+    }
+  }
+
+  static Future<List<UserProfile>> getSubscribedMemberList() async {
+    try {
+      final QuerySnapshot querySnapshot =
+          await firestore!.collection("subscribe_member").get();
+      return querySnapshot.docs
+          .map((e) => UserProfile.fromJson(jsonDecode(jsonEncode(e.data()))))
+          .toList();
+    } catch (e) {
       throw e;
     }
   }

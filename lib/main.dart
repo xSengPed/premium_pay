@@ -4,8 +4,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_yt_app/configs/router.dart';
 import 'package:flutter_yt_app/configs/size_config.dart';
 import 'package:flutter_yt_app/firebase_options.dart';
+import 'package:flutter_yt_app/providers/members_provider.dart';
 import 'package:flutter_yt_app/services/firestore_services.dart';
 import 'package:flutter_yt_app/services/auth_service.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 _initializeEasyLoading() {
   EasyLoading.instance
@@ -35,59 +38,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      routerConfig: router,
-      builder: EasyLoading.init(),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    // AdminServices.getSubscribedMember();
-    // Auth.validateLogin(context);
-    FirestoreServices.getUserProfile("kalima007c@gmail.com");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MembersProvider()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+        builder: EasyLoading.init(),
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            textTheme: GoogleFonts.kanitTextTheme()),
       ),
     );
   }

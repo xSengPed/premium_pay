@@ -3,10 +3,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/services/firestore_services.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateMemberActionSheet extends StatefulWidget {
-  const CreateMemberActionSheet({super.key});
-
+  final VoidCallback onCreateComplete;
+  const CreateMemberActionSheet({super.key, required this.onCreateComplete});
   @override
   State<CreateMemberActionSheet> createState() =>
       _CreateMemberActionSheetState();
@@ -22,13 +23,16 @@ class _CreateMemberActionSheetState extends State<CreateMemberActionSheet> {
     EasyLoading.show(status: "");
     try {
       await FirestoreServices.createSubscribedMember(UserProfile(
-          gmail: emailController.text,
-          tel: mobileNoController.text,
-          value: 600,
-          isAdmin: false,
+          name: nameController.text,
+          email: emailController.text,
+          mobileNo: mobileNoController.text,
+          overdue: 600,
+          admin: false,
           paid: false,
-          uid: ""));
+          uuid: Uuid().v4()));
+
       EasyLoading.dismiss();
+      widget.onCreateComplete();
       Navigator.pop(context);
     } catch (e) {
       EasyLoading.dismiss();

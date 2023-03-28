@@ -40,8 +40,8 @@ class Auth {
           final UserProfile? userProfile =
               await FirestoreServices.getUserProfile(servicesRes.email);
           if (userProfile != null) {
-            log(userProfile.tel.toString());
-            if (userProfile.isAdmin == true) {
+            log(userProfile.mobileNo.toString());
+            if (userProfile.admin == true) {
               GoRouter.of(context).pushReplacement('/admin');
             } else {
               GoRouter.of(context).pushReplacement('/');
