@@ -136,7 +136,27 @@ class _AdminHomeState extends State<AdminHome> {
               ),
             );
           } else {
-            return Container();
+            return Container(
+              // width: double.infinity,
+              // height: double.infinity,
+              color: Colors.blue,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: SvgPicture.asset(
+                      'assets/bg/waves-haikei-desktop.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  TopNavigator(
+                    color: Color(0xFFC62368),
+                    isDesktop: true,
+                  ),
+                ],
+              ),
+            );
           }
         },
       ),

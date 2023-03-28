@@ -13,6 +13,7 @@ class Alert {
     VoidCallback? cancelSubmit,
     bool reversed = false,
     bool okOnly = false,
+    bool isDesktop = false,
   }) {
     showGeneralDialog(
       context: context,
@@ -23,6 +24,9 @@ class Alert {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
+              constraints: BoxConstraints(
+                maxWidth: isDesktop ? 300 : double.infinity,
+              ),
               padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
