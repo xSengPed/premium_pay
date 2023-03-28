@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_yt_app/components/admin_member_card.dart';
 import 'package:flutter_yt_app/components/alert.dart';
@@ -24,11 +25,26 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   List<UserProfile> subscribedMembers = [];
 
-  void _fetchSubscribedMembers() async {
+  _fetchSubscribedMembers({bool isFromCreate = false}) async {
     log('fetch member list');
     EasyLoading.show(status: "");
     final temp = await FirestoreServices.getSubscribedMemberList();
     EasyLoading.dismiss();
+    if (isFromCreate == true) {
+      Flushbar(
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        backgroundColor: Colors.green[700]!,
+        messageSize: 1.4 * 10,
+        message: "สร้างสมาชิกใหม่ สำเร็จ",
+        duration: const Duration(milliseconds: 1500),
+        padding: EdgeInsets.only(
+          left: 1.2 * 10,
+          right: 1.2 * 10,
+          bottom: 1.2 * 10,
+        ),
+      ).show(context);
+    }
     setState(() {
       subscribedMembers = temp;
     });
@@ -50,7 +66,9 @@ class _AdminHomeState extends State<AdminHome> {
         isScrollControlled: true,
         builder: (context) {
           return CreateMemberActionSheet(
-            onCreateComplete: () => _fetchSubscribedMembers(),
+            onCreateComplete: () async {
+              _fetchSubscribedMembers(isFromCreate: true);
+            },
           );
         },
       );
@@ -101,8 +119,14 @@ class _AdminHomeState extends State<AdminHome> {
                         margin: EdgeInsets.all(1.6 * defaultSize),
                         height: 4.5 * defaultSize,
                         child: SxButton(
+                          shape: SxButtonShape.rounded,
                           backgroundColor: Colors.red[500],
-                          child: const Text('เพิ่มสมาชิกใหม่'),
+                          child: Text(
+                            'เพิ่มสมาชิกใหม่',
+                            style: TextStyle(
+                                fontSize: 1.4 * defaultSize,
+                                fontWeight: FontWeight.w600),
+                          ),
                           onTap: () => addNewMember(context),
                         ),
                       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
+import 'package:flutter_yt_app/configs/size_config.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/services/firestore_services.dart';
 import 'package:uuid/uuid.dart';
@@ -33,6 +35,7 @@ class _CreateMemberActionSheetState extends State<CreateMemberActionSheet> {
 
       EasyLoading.dismiss();
       widget.onCreateComplete();
+
       Navigator.pop(context);
     } catch (e) {
       EasyLoading.dismiss();
@@ -41,8 +44,10 @@ class _CreateMemberActionSheetState extends State<CreateMemberActionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final double defaultSize = SizeConfig.defaultSize;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: Column(children: [
         Container(
           padding: const EdgeInsets.all(16),

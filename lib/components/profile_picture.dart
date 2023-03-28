@@ -24,6 +24,9 @@ class ProfilePicture extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           child: CachedNetworkImage(
               placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) {
+                return Container();
+              },
               fit: BoxFit.cover,
               imageUrl:
                   "https://lh3.googleusercontent.com/a/AGNmyxZPl8pd12dksAMUI6-17e4xdK-w1zfFXIpHJPG_HYM=s100"),

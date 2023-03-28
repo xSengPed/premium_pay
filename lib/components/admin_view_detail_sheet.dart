@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_yt_app/components/alert.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/configs/size_config.dart';
@@ -219,18 +220,20 @@ class _AdminViewDetailSheetState extends State<AdminViewDetailSheet> {
             SizedBox(
               height: 4.0 * defaultSize,
               child: SxButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Icon(
-                      //   Icons.save,
-                      //   color: Colors.white,
-                      // ),
-                      Text('ลบ'),
-                    ],
-                  ),
-                  backgroundColor:
-                      isEditFlag == true ? Colors.red[800] : Colors.grey),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Icon(
+                    //   Icons.save,
+                    //   color: Colors.white,
+                    // ),
+                    Text('ลบ'),
+                  ],
+                ),
+                backgroundColor:
+                    isEditFlag == true ? Colors.red[800] : Colors.grey,
+                onTap: () {},
+              ),
             ),
           ],
         ),
