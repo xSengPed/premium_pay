@@ -51,7 +51,6 @@ class TopNavigator extends StatelessWidget {
                     desc: "คุณต้องการออกจากระบบ หรือ ไม่ ?",
                     okText: "ออกจากระบบ",
                     cancelText: "ยกเลิก",
-                    isDesktop: isDesktop,
                     descAlignment: MainAxisAlignment.center);
               }),
         ),

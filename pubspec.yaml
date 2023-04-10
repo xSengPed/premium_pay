@@ -27,6 +27,7 @@ dependencies:
   cached_network_image: ^3.2.3
   uuid: ^3.0.7
   flutter_flushbar: ^0.0.2
+  responsive_grid: ^2.2.0
 
 dev_dependencies:
   flutter_test:

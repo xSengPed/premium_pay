@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_yt_app/components/admin_member_card.dart';
+import 'package:flutter_yt_app/components/admin_view_detail_sheet.dart';
 import 'package:flutter_yt_app/components/alert.dart';
 import 'package:flutter_yt_app/components/create_member_bottomsheet.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
@@ -13,7 +14,8 @@ import 'package:flutter_yt_app/components/top_navigator.dart';
 import 'package:flutter_yt_app/configs/size_config.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/services/firestore_services.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:responsive_builder/responsive_builder.dart' as rb;
+import 'package:responsive_grid/responsive_grid.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
@@ -84,12 +86,80 @@ class _AdminHomeState extends State<AdminHome> {
     }
   }
 
+  void viewDetail(UserProfile subscribedMembers) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      useSafeArea: true,
+      builder: (context) =>
+          AdminViewDetailSheet(subscribeMember: subscribedMembers),
+    );
+  }
+
+  List<ResponsiveGridCol> getMemberList(List<UserProfile> members) {
+    return members.map((UserProfile user) {
+      return ResponsiveGridCol(
+        lg: 4,
+        md: 4,
+        sm: 4,
+        child: Container(
+            margin: EdgeInsets.all(1 * SizeConfig.defaultSize),
+            padding: EdgeInsets.all(1.6 * SizeConfig.defaultSize),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                    BorderRadius.circular(0.5 * SizeConfig.defaultSize)),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      user.name.toString(),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      child: Icon(Icons.edit_document),
+                      onTap: () => viewDetail(user),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      user.email.toString(),
+                      style: TextStyle(
+                          fontSize: 0.7 * SizeConfig.defaultSize,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      user.mobileNo.toString(),
+                      style: TextStyle(
+                          fontSize: 0.7 * SizeConfig.defaultSize,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            )),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final double defaultSize = SizeConfig.defaultSize;
     return Scaffold(
-      body: ResponsiveBuilder(
+      body: rb.ResponsiveBuilder(
         builder: (context, breakpoint) {
           if (breakpoint.isMobile) {
             return Container(
@@ -136,26 +206,42 @@ class _AdminHomeState extends State<AdminHome> {
               ),
             );
           } else {
-            return Container(
-              // width: double.infinity,
-              // height: double.infinity,
-              color: Colors.blue,
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: SvgPicture.asset(
-                      'assets/bg/waves-haikei-desktop.svg',
-                      fit: BoxFit.cover,
+            return Stack(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: SvgPicture.asset(
+                    'assets/bg/waves-haikei-desktop.svg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Column(
+                  children: [
+                    TopNavigator(
+                      color: Color(0xFFC62368),
+                      isDesktop: true,
                     ),
-                  ),
-                  TopNavigator(
-                    color: Color(0xFFC62368),
-                    isDesktop: true,
-                  ),
-                ],
-              ),
+                    ResponsiveGridCol(
+                        child: Padding(
+                      padding: EdgeInsets.all(1.6 * defaultSize),
+                      child: ResponsiveGridRow(
+                        children: getMemberList(subscribedMembers),
+                      ),
+                    )),
+                  ],
+                ),
+                Positioned(
+                    bottom: 1.6 * defaultSize,
+                    right: 1.6 * defaultSize,
+                    child: CircleAvatar(
+                        backgroundColor: Color(0xFFC62368),
+                        child: IconButton(
+                            onPressed: () {
+                              addNewMember(context);
+                            },
+                            icon: Icon(Icons.add)))),
+              ],
             );
           }
         },
