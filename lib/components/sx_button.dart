@@ -39,9 +39,10 @@ class SxButton extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                letterSpacing: 1.25),
+                letterSpacing: 1.2),
             child: Center(child: child!)),
       ),
     );
   }
 }
+// ! Fix Quick
