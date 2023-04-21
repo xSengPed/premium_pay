@@ -1,48 +1,36 @@
 import 'package:flutter/material.dart';
-
-enum SxButtonShape {
-  flat,
-  rounded,
-}
+import 'package:flutter_yt_app/components/button.dart';
 
 class SxButton extends StatelessWidget {
-  final Widget? child;
+  final String label;
   final Color? backgroundColor;
-  final Gradient? gradient;
-  final VoidCallback? onTap;
-  final SxButtonShape shape;
-
+  final BorderRadius? borderRadius;
+  final VoidCallback? onClick;
+  final TextStyle? labelStyle;
   const SxButton(
       {super.key,
-      this.child,
+      this.label = "",
       this.backgroundColor,
-      this.gradient,
-      this.onTap,
-      this.shape = SxButtonShape.flat});
+      this.borderRadius,
+      this.onClick,
+      this.labelStyle});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-            gradient: gradient,
-            color: gradient == null && backgroundColor == null
-                ? Colors.blue[900]
-                : backgroundColor,
-            borderRadius: SxButtonShape.flat == shape
-                ? BorderRadius.circular(5)
-                : BorderRadius.circular(100)),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: DefaultTextStyle(
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1.2),
-            child: Center(child: child!)),
+    return Button(
+      onClick: onClick,
+      child: SizedBox(
+        height: 35,
+        child: Container(
+            decoration: BoxDecoration(
+                color: backgroundColor ?? Colors.grey[100],
+                borderRadius: borderRadius ?? BorderRadius.circular(8)),
+            child: Center(
+                child: Text(
+              '$label',
+              style: labelStyle,
+            ))),
       ),
     );
   }
 }
-// ! Fix Quick

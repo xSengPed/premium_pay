@@ -1,70 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_yt_app/components/sx_button.dart';
-import 'package:flutter_yt_app/configs/size_config.dart';
+import 'package:flutter_yt_app/components/button.dart';
+import 'package:flutter_yt_app/models/user_profile.dart';
 
 class MemberCard extends StatelessWidget {
-  const MemberCard({super.key});
+  final UserProfile user;
+  const MemberCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    final double defaultSize = SizeConfig.defaultSize;
     return Container(
-      padding: const EdgeInsets.all(16),
-      height: 14.0 * defaultSize,
+      padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20)),
+          color: Colors.white, borderRadius: BorderRadius.circular(16)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(user.name.toString(),
+              style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                fontWeight: FontWeight.w600,
+              )),
+          Text(user.email.toString()),
+          Text(user.mobileNo.toString()),
+          Text(user.lastPaid.toString()),
+          Text(user.expired.toString()),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SvgPicture.asset(
-                'assets/icons/yt_premium.svg',
-                width: 2.4 * defaultSize,
-                height: 2.4 * defaultSize,
-              ),
-              SizedBox(
-                width: 6.4 * defaultSize,
-              ),
-              Expanded(
-                child: SxButton(
-                  backgroundColor: Colors.red[700],
-                  shape: SxButtonShape.rounded,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text('จ่ายเงิน'),
-                    ],
-                  ),
+              Button(
+                child: SvgPicture.asset(
+                  "assets/icons/settings-outline.svg",
+                  width: 18,
                 ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Row(
-            children: [
-              Text(
-                'ชำระเงินล่าสุด',
-                style: TextStyle(
-                    fontSize: 1.4 * defaultSize, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(width: 0.4 * defaultSize),
-              Text(
-                '1 เมษายน 2566',
-                style: TextStyle(fontSize: 1.4 * defaultSize),
-              ),
-              const Spacer(),
-              Text(
-                'หมดอายุ',
-                style: TextStyle(
-                    fontSize: 1.4 * defaultSize, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(width: 0.4 * defaultSize),
-              Text(
-                '1 เมษายน 2567',
-                style: TextStyle(fontSize: 1.4 * defaultSize),
-              ),
+              )
             ],
           )
         ],

@@ -1,14 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_yt_app/configs/router.dart';
-import 'package:flutter_yt_app/configs/size_config.dart';
+import 'package:flutter_yt_app/configs/app.route.dart';
 import 'package:flutter_yt_app/firebase_options.dart';
-import 'package:flutter_yt_app/providers/members_provider.dart';
-import 'package:flutter_yt_app/services/firestore_services.dart';
-import 'package:flutter_yt_app/services/auth_service.dart';
+import 'package:flutter_yt_app/services/firestore.service.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 _initializeEasyLoading() {
   EasyLoading.instance
@@ -29,27 +25,21 @@ _initializeEasyLoading() {
 void main() async {
   _initializeEasyLoading();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirestoreServices.init();
-  runApp(const MyApp());
+  FirestoreService.init();
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MembersProvider()),
-      ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
-        builder: EasyLoading.init(),
-        theme: ThemeData(
-            primarySwatch: Colors.blue,
-            textTheme: GoogleFonts.kanitTextTheme()),
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
+      builder: EasyLoading.init(),
+      theme: ThemeData(
+          primarySwatch: Colors.blue, textTheme: GoogleFonts.kanitTextTheme()),
     );
   }
 }
