@@ -4,8 +4,18 @@ import 'package:flutter_yt_app/components/button.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 
 class MemberCard extends StatelessWidget {
+  final bool loginAsAdmin;
+
+  final VoidCallback? onClickSetting;
+  final VoidCallback? onClickDelete;
   final UserProfile user;
-  const MemberCard({super.key, required this.user});
+  const MemberCard({
+    super.key,
+    this.loginAsAdmin = false,
+    this.onClickSetting,
+    this.onClickDelete,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,26 +27,46 @@ class MemberCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(user.name.toString(),
-              style: TextStyle(
-                overflow: TextOverflow.ellipsis,
-                fontWeight: FontWeight.w600,
-              )),
+          Row(
+            children: [
+              Text(user.name.toString(),
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    fontWeight: FontWeight.w600,
+                  )),
+              Spacer(),
+              Visibility(
+                visible: loginAsAdmin,
+                child: Button(
+                  child: SvgPicture.asset(
+                    "assets/icons/settings-outline.svg",
+                    width: 18,
+                  ),
+                  onClick: onClickSetting,
+                ),
+              ),
+            ],
+          ),
           Text(user.email.toString()),
           Text(user.mobileNo.toString()),
           Text(user.lastPaid.toString()),
           Text(user.expired.toString()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Button(
-                child: SvgPicture.asset(
-                  "assets/icons/settings-outline.svg",
-                  width: 18,
-                ),
-              )
-            ],
-          )
+          Visibility(
+              visible: user.admin == false && loginAsAdmin == true,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Button(
+                    child: SvgPicture.asset(
+                      "assets/icons/trash-outline.svg",
+                      colorFilter:
+                          ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                      width: 18,
+                    ),
+                    onClick: onClickDelete,
+                  ),
+                ],
+              ))
         ],
       ),
     );

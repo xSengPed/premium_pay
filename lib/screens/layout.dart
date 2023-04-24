@@ -8,11 +8,13 @@ class Layout extends StatelessWidget {
   final List<ResponsiveGridCol>? children;
   final Widget? floatingActionButton;
   final double marginTop;
+  final Widget? toolbar;
   const Layout(
       {super.key,
       this.children,
       this.floatingActionButton,
-      this.marginTop = 75.0});
+      this.marginTop = 75.0,
+      this.toolbar});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class Layout extends StatelessWidget {
               ),
             ),
           ),
-          Toolbar(),
+          toolbar ?? Toolbar(),
         ],
       ),
     );

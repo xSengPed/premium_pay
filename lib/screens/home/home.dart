@@ -7,6 +7,7 @@ import 'package:flutter_yt_app/components/tool_bar.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/screens/home/home.controller.dart';
 import 'package:flutter_yt_app/screens/layout.dart';
+import 'package:flutter_yt_app/services/firestore.service.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
@@ -22,6 +23,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     controller = HomeController(context: context);
+
     super.initState();
   }
 
@@ -34,6 +36,7 @@ class _HomeState extends State<Home> {
           lg: 4,
           xl: 3,
           child: MemberCard(
+            loginAsAdmin: false,
             user: user,
           ));
     }).toList();
@@ -66,7 +69,9 @@ class _HomeState extends State<Home> {
                 width: 24,
               ),
             ),
-            onClick: showQrCodeOverlay,
+            onClick: () {
+              FirestoreService.testInjectMemberData();
+            },
           ),
           children: [...getMemberWidget(ctrl)],
         );

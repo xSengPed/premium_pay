@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 class UserProfile {
   String? uuid;
   String? name;
@@ -34,11 +36,11 @@ class UserProfile {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uuid'] = this.uuid;
+    data['uuid'] = this.uuid ?? Uuid().v4();
     data['name'] = this.name;
     data['email'] = this.email;
     data['mobile_no'] = this.mobileNo;
-    data['admin'] = this.admin;
+    data['admin'] = this.admin ?? false;
     data['paid'] = this.paid;
     data['last_paid'] = this.lastPaid;
     data['expired'] = this.expired;

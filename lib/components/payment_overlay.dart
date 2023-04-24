@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_yt_app/components/button.dart';
+
 import 'package:flutter_yt_app/components/sx_button.dart';
 
 class PaymentOverlay extends StatefulWidget {
@@ -43,32 +42,28 @@ class _PaymentOverlayState extends State<PaymentOverlay> {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Expanded(
-                  child: SxButton(
-                    label: "6 Months",
-                    labelStyle: TextStyle(color: Colors.white),
-                    backgroundColor: Colors.indigo[800],
-                    onClick: () {
-                      setState(() {
-                        index = 0;
-                      });
-                    },
-                  ),
+                SxButton(
+                  label: "6 Months",
+                  labelStyle: TextStyle(color: Colors.white),
+                  backgroundColor: Colors.indigo[800],
+                  onClick: () {
+                    setState(() {
+                      index = 0;
+                    });
+                  },
                 ),
                 SizedBox(
                   width: 16,
                 ),
-                Expanded(
-                  child: SxButton(
-                    label: "12 Months",
-                    labelStyle: TextStyle(color: Colors.white),
-                    backgroundColor: Colors.indigo[800],
-                    onClick: () {
-                      setState(() {
-                        index = 1;
-                      });
-                    },
-                  ),
+                SxButton(
+                  label: "12 Months",
+                  labelStyle: TextStyle(color: Colors.white),
+                  backgroundColor: Colors.indigo[800],
+                  onClick: () {
+                    setState(() {
+                      index = 1;
+                    });
+                  },
                 ),
               ],
             ),
