@@ -30,6 +30,8 @@ dependencies:
   responsive_grid: ^2.2.0
   auto_size_text: ^3.0.0
   mask_text_input_formatter: ^2.4.0
+  flutter_dotenv: ^5.0.2
+
 
 dev_dependencies:
   flutter_test:
@@ -43,3 +45,5 @@ flutter:
     - assets/images/
     - assets/bg/
     - assets/icons/
+    - .env
+
