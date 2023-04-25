@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_yt_app/components/alert.dart';
 import 'package:flutter_yt_app/components/button.dart';
+import 'package:flutter_yt_app/components/middleware_alert.dart';
 import 'package:flutter_yt_app/components/setting_overlay.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
@@ -46,8 +48,8 @@ class AdminController extends ChangeNotifier {
       await fetchMembers();
       EasyLoading.dismiss();
     } catch (err) {
-      log('submit error');
       EasyLoading.dismiss();
+      throw err;
     }
   }
 
@@ -67,7 +69,10 @@ class AdminController extends ChangeNotifier {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Delete Member'),
+                        Text(
+                          'ลบสมาชิก',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
                     onClick: () => Navigator.pop(context),
@@ -77,13 +82,19 @@ class AdminController extends ChangeNotifier {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Text("Delete Desc")],
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(child: Text("ลบสมาชิก ${user.name}")),
+                        ],
+                      )
+                    ],
                   ),
                 ),
                 Row(
                   children: [
                     SxButton(
-                      label: "Delete",
+                      label: "ลบ",
                       labelStyle: TextStyle(color: Colors.white),
                       backgroundColor: Colors.red,
                       onClick: () async {
@@ -96,6 +107,8 @@ class AdminController extends ChangeNotifier {
                         } catch (err) {
                           log(err.toString());
                           EasyLoading.dismiss();
+                          Navigator.pop(context);
+                          MiddelwareAlert.show(context, err);
                         }
                       },
                     ),
@@ -103,7 +116,7 @@ class AdminController extends ChangeNotifier {
                       width: 16,
                     ),
                     SxButton(
-                      label: "Cancel",
+                      label: "ยกเลิก",
                       labelStyle: TextStyle(color: Colors.white),
                       backgroundColor: Colors.grey,
                       onClick: () => Navigator.pop(context),
@@ -138,15 +151,21 @@ class AdminController extends ChangeNotifier {
     );
   }
 
-  signOut(BuildContext context) async {
-    log("sign out");
-    try {
-      EasyLoading.show(status: "");
-      await AuthService.signOut();
-      GoRouter.of(context).go('/');
-      EasyLoading.dismiss();
-    } catch (err) {
-      EasyLoading.dismiss();
-    }
+  signOut(BuildContext context) {
+    Alert.show(context,
+        title: "ออกจากระบบ",
+        description: "",
+        okText: "ออกจากระบบ",
+        cancelText: "ปิด",
+        submitColor: Colors.red, onSubmit: () async {
+      try {
+        EasyLoading.show(status: "");
+        await AuthService.signOut();
+        GoRouter.of(context).go('/');
+        EasyLoading.dismiss();
+      } catch (err) {
+        EasyLoading.dismiss();
+      }
+    });
   }
 }

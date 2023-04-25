@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_yt_app/components/alert.dart';
 import 'package:flutter_yt_app/components/button.dart';
 import 'package:flutter_yt_app/components/member_card.dart';
 import 'package:flutter_yt_app/components/payment_overlay.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_yt_app/components/tool_bar.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/screens/home/home.controller.dart';
 import 'package:flutter_yt_app/screens/layout.dart';
-import 'package:flutter_yt_app/services/firestore.service.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
@@ -43,14 +41,15 @@ class _HomeState extends State<Home> {
     }).toList();
   }
 
-  void showQrCodeOverlay() {
-    showGeneralDialog(
+  showQrCodeOverlay() {
+    return showModalBottomSheet(
       context: context,
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          child: PaymentOverlay(),
-        );
+      constraints: BoxConstraints(maxWidth: 500),
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+      builder: (context) {
+        return PaymentOverlay();
       },
     );
   }
@@ -72,6 +71,7 @@ class _HomeState extends State<Home> {
           ),
           floatingActionButton: Button(
             child: CircleAvatar(
+              backgroundColor: Color(0xFFBD395D),
               radius: 36,
               child: SvgPicture.asset(
                 "assets/icons/qr-code-outline.svg",
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             onClick: () {
-              FirestoreService.testInjectMemberData();
+              showQrCodeOverlay();
             },
           ),
           children: [...getMemberWidget(ctrl)],

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_yt_app/components/button.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/components/tool_bar.dart';
 import 'package:flutter_yt_app/screens/sign_in/sign_in.controller.dart';
@@ -15,7 +18,6 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   late SignInController controller;
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final InputDecoration defaultDecoration = InputDecoration(
@@ -87,9 +89,26 @@ class _SignInState extends State<SignIn> {
                       ),
                       TextFormField(
                         controller: passwordController,
-                        decoration:
-                            defaultDecoration.copyWith(hintText: "Password"),
-                        obscureText: true,
+                        decoration: defaultDecoration.copyWith(
+                            hintText: "Password",
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Button(
+                                child: SvgPicture.asset(
+                                  ctrl.toggleHiddenPassword == false
+                                      ? "assets/icons/eye-off-outline.svg"
+                                      : "assets/icons/eye-outline.svg",
+                                  width: 16,
+                                ),
+                                onClick: () {
+                                  setState(() {
+                                    ctrl.toggleHiddenPassword =
+                                        !ctrl.toggleHiddenPassword;
+                                  });
+                                },
+                              ),
+                            )),
+                        obscureText: ctrl.toggleHiddenPassword,
                       ),
                       SizedBox(
                         height: 16,
@@ -98,9 +117,10 @@ class _SignInState extends State<SignIn> {
                         children: [
                           Spacer(),
                           SxButton(
-                            backgroundColor: Colors.indigo,
+                            backgroundColor: Color(0xFFBD395D),
                             height: 50,
-                            label: "Sign In",
+                            label: "เข้าสู่ระบบ",
+                            borderRadius: BorderRadius.circular(16),
                             labelStyle: TextStyle(color: Colors.white),
                             onClick: () {
                               ctrl.signInWithEmail(context,
@@ -111,35 +131,9 @@ class _SignInState extends State<SignIn> {
                         ],
                       ),
                       Spacer(),
-                      // Row(
-                      //   children: [
-                      //     SxButton(
-                      //       backgroundColor: Colors.indigo,
-                      //       height: 50,
-                      //       label: "Check Auth",
-                      //       labelStyle: TextStyle(color: Colors.white),
-                      //       onClick: () {
-                      //         ctrl.checkAuth();
-                      //       },
-                      //     ),
-                      //   ],
-                      // ),
                       SizedBox(
                         height: 16,
                       ),
-                      // Row(
-                      //   children: [
-                      //     SxButton(
-                      //       backgroundColor: Colors.indigo,
-                      //       height: 50,
-                      //       label: "Sign Out",
-                      //       labelStyle: TextStyle(color: Colors.white),
-                      //       onClick: () {
-                      //         // ctrl.signOut(context);
-                      //       },
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),
@@ -152,7 +146,13 @@ class _SignInState extends State<SignIn> {
                     width: 100,
                   ),
                 ]),
-                trailing: Text('Administrator'),
+                trailing: Text(
+                  'ผู้ดูแลระบบ',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.7),
+                ),
               ),
             ],
           ),

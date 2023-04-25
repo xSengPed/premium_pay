@@ -10,15 +10,34 @@ class AuthService {
     FirebaseAuth auth = await FirebaseAuth.instance;
 
     try {
-      final UserCredential user = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       GoRouter.of(context).pushReplacement("/admin");
     } catch (err) {
-      log(err.toString());
-      throw {
-        "code": 5000,
-        "desc": "Generic Error",
-      };
+      if (err.toString().contains("[firebase_auth/invalid-email]")) {
+        throw {
+          "code": 4001,
+          "err_data": {
+            "title": "รูปแบบอีเมลล์ไม่ถูกต้อง",
+            "desc": "กรุณาลองใหม่อีกครั้ง"
+          },
+        };
+      } else if (err.toString().contains("firebase_auth/wrong-password")) {
+        throw {
+          "code": 4002,
+          "err_data": {
+            "title": "รหัสผ่านไม่ถูกต้อง",
+            "desc": "กรุณาลองใหม่อีกครั้ง"
+          },
+        };
+      } else {
+        throw {
+          "code": 5000,
+          "err_data": {
+            "title": "ไม่สามารถทำรายการได้",
+            "desc": "กรุณาลองใหม่อีกครั้ง"
+          },
+        };
+      }
     }
   }
 
@@ -30,7 +49,10 @@ class AuthService {
     } catch (err) {
       throw {
         "code": 5000,
-        "desc": "Generic Error",
+        "err_data": {
+          "title": "ไม่สามารถทำรายการได้",
+          "desc": "กรุณาลองใหม่อีกครั้ง"
+        },
       };
     }
   }
@@ -41,17 +63,17 @@ class AuthService {
 
       if (auth.currentUser?.uid == null || auth.currentUser?.email == null) {
         throw {
-          "code": "5002",
-          "desc": "User is not login",
+          "code": 5000,
+          "err_data": {
+            "title": "ไม่สามารถทำรายการได้",
+            "desc": "กรุณาลองใหม่อีกครั้ง"
+          },
         };
       } else {
         log('user already login');
         return true;
       }
     } catch (err) {
-      log("ERR");
-
-      log(err.toString());
       return false;
     }
   }

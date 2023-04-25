@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_yt_app/components/middleware_alert.dart';
 import 'package:flutter_yt_app/services/auth_service.dart';
-import 'package:go_router/go_router.dart';
 
 class SignInController extends ChangeNotifier {
+  bool toggleHiddenPassword = true;
   BuildContext context;
   SignInController(this.context) {
     _init();
@@ -22,6 +22,7 @@ class SignInController extends ChangeNotifier {
           email: email, password: password);
       EasyLoading.dismiss();
     } catch (err) {
+      MiddelwareAlert.show(context, err);
       EasyLoading.dismiss();
     }
   }

@@ -76,17 +76,17 @@ class FirestoreService {
         if (snapshot.docs.length >= 6) {
           throw {
             "code": 2001,
-            "desc": "Maximum member limit",
+            "err_data": {
+              "title": "ไม่สามารถเพิ่มสมาชิกได้",
+              "desc": "สมาชิกได้ถูกเพิ่มเป็นจำนวนสูงสุด 6 คน"
+            },
           };
         }
       });
       users.forEach((element) async {
         await collectionReference.add(element.toJson());
       });
-
-      log('[Inject] - Done!');
     } catch (err) {
-      log('[Inject] - Failed!');
       log(err.toString());
     }
   }
@@ -114,7 +114,10 @@ class FirestoreService {
         } else {
           throw {
             "code": 5000,
-            "desc": "Generic Error",
+            "err_data": {
+              "title": "ไม่สามารถทำรายการได้",
+              "desc": "กรุณาลองใหม่อีกครั้ง"
+            },
           };
         }
       });
@@ -130,8 +133,11 @@ class FirestoreService {
       await collectionReference.get().then((snapshot) {
         if (snapshot.docs.length >= 6) {
           throw {
-            "code": "4001",
-            "desc": "cannot create more member max limit (6) "
+            "code": 2001,
+            "err_data": {
+              "title": "ไม่สามารถเพิ่มสมาชิกได้",
+              "desc": "สมาชิกได้ถูกเพิ่มเป็นจำนวนสูงสุด 6 คน"
+            },
           };
         }
       });
@@ -144,7 +150,13 @@ class FirestoreService {
   static Future<void> deleteMember(UserProfile user) async {
     try {
       if (user.admin == true) {
-        throw {"code": 4007, "desc": "Cannot Delete Admin"};
+        throw {
+          "code": 1001,
+          "err_data": {
+            "title": "ไม่สามารถทำรายการได้",
+            "desc": "ไม่สามารถลบผู้ดูแลระบบได้"
+          },
+        };
       }
       final id = await collectionReference
           .where("uuid", isEqualTo: user.uuid)
@@ -156,7 +168,10 @@ class FirestoreService {
         } else {
           throw {
             "code": 5000,
-            "desc": "Generic Error",
+            "err_data": {
+              "title": "ไม่สามารถทำรายการได้",
+              "desc": "กรุณาลองใหม่อีกครั้ง"
+            },
           };
         }
       });
