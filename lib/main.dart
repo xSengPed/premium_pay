@@ -25,7 +25,7 @@ _initializeEasyLoading() {
 
 void main() async {
   _initializeEasyLoading();
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirestoreService.init();
   runApp(const App());
