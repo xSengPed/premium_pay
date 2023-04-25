@@ -7,7 +7,6 @@ import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/components/tool_bar.dart';
 import 'package:flutter_yt_app/screens/sign_in/sign_in.controller.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_builder/responsive_builder.dart' as rb;
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -55,21 +54,23 @@ class _SignInState extends State<SignIn> {
               Container(
                 width: double.infinity,
                 height: double.infinity,
-                child: rb.ResponsiveBuilder(
-                  builder: (context, breakpoint) {
-                    if (breakpoint.isMobile) {
-                      return SvgPicture.asset(
-                        'assets/bg/wave-haikei-mobile.svg',
-                        fit: BoxFit.cover,
-                      );
-                    } else {
-                      return SvgPicture.asset(
-                        'assets/bg/waves-haikei-desktop.svg',
-                        fit: BoxFit.cover,
-                      );
-                    }
-                  },
-                ),
+                child: Container(),
+
+                // rb.ResponsiveBuilder(
+                //   builder: (context, breakpoint) {
+                //     if (breakpoint.isMobile) {
+                //       return SvgPicture.asset(
+                //         'assets/bg/wave-haikei-mobile.svg',
+                //         fit: BoxFit.cover,
+                //       );
+                //     } else {
+                //       return SvgPicture.asset(
+                //         'assets/bg/waves-haikei-desktop.svg',
+                //         fit: BoxFit.cover,
+                //       );
+                //     }
+                //   },
+                // ),
               ),
               Center(
                 child: Container(

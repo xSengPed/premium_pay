@@ -9,7 +9,7 @@ import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/screens/admin/admin.controller.dart';
 import 'package:flutter_yt_app/screens/layout.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_builder/responsive_builder.dart' as rb;
+
 import 'package:responsive_grid/responsive_grid.dart';
 
 class Admin extends StatefulWidget {
@@ -36,15 +36,11 @@ class _AdminState extends State<Admin> {
           md: 6,
           lg: 4,
           xl: 3,
-          child: rb.ResponsiveBuilder(
-            builder: (context, breakpoint) {
-              return MemberCard(
-                user: user,
-                loginAsAdmin: true,
-                onClickSetting: () => ctrl.showSettingOverlay(context, user),
-                onClickDelete: () => ctrl.showDeleteAlert(context, user: user),
-              );
-            },
+          child: MemberCard(
+            user: user,
+            loginAsAdmin: true,
+            onClickSetting: () => ctrl.showSettingOverlay(context, user),
+            onClickDelete: () => ctrl.showDeleteAlert(context, user: user),
           ));
     }).toList();
   }
