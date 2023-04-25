@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_yt_app/components/button.dart';
 
 import 'package:flutter_yt_app/components/member_card.dart';
 
@@ -61,6 +63,14 @@ class _AdminState extends State<Admin> {
           toolbar: Toolbar(
             leading: Text("Welcome, Administrator",
                 style: TextStyle(color: Colors.white)),
+            trailing: Button(
+              child: SvgPicture.asset(
+                "assets/icons/log-out-outline.svg",
+                width: 24,
+                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              ),
+              onClick: () => ctrl.signOut(context),
+            ),
           ),
           children: [...getMemberWidget(ctrl)],
         );

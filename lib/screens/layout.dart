@@ -15,7 +15,6 @@ class Layout extends StatelessWidget {
       this.floatingActionButton,
       this.marginTop = 75.0,
       this.toolbar});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

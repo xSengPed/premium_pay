@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_yt_app/configs/app.route.dart';
 import 'package:flutter_yt_app/firebase_options.dart';
@@ -24,6 +25,7 @@ _initializeEasyLoading() {
 
 void main() async {
   _initializeEasyLoading();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirestoreService.init();
   runApp(const App());

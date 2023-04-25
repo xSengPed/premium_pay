@@ -49,8 +49,18 @@ class MemberCard extends StatelessWidget {
           ),
           Text(user.email.toString()),
           Text(user.mobileNo.toString()),
-          Text(user.lastPaid.toString()),
-          Text(user.expired.toString()),
+          Row(
+            children: [
+              Text(
+                "หมดอายุ ",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                user.expired.toString(),
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
           Visibility(
               visible: user.admin == false && loginAsAdmin == true,
               child: Row(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_yt_app/components/button.dart';
+import 'package:flutter_yt_app/components/middleware_alert.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/screens/admin/admin.controller.dart';
@@ -115,7 +116,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: TextFormField(
               controller: nameController,
-              decoration: defaultDecoration.copyWith(label: Text("Full Name")),
+              decoration: defaultDecoration.copyWith(label: Text("ชื่อเต็ม")),
             ),
           ),
           // mail
@@ -123,7 +124,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: TextFormField(
                 controller: emailController,
-                decoration: defaultDecoration.copyWith(label: Text("E-Mail"))),
+                decoration: defaultDecoration.copyWith(label: Text("อีเมลล์"))),
           ),
           // mobile
           Padding(
@@ -132,7 +133,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
                 controller: mobileController,
                 inputFormatters: [mobileNoFormat],
                 decoration:
-                    defaultDecoration.copyWith(label: Text("Mobile No."))),
+                    defaultDecoration.copyWith(label: Text("หมายเลขโทรศัพท์"))),
           ),
 
           Padding(
@@ -145,7 +146,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
                     readOnly: true,
                     enabled: paid,
                     decoration:
-                        defaultDecoration.copyWith(label: Text("Last Paid")),
+                        defaultDecoration.copyWith(label: Text("วันที่จ่าย")),
                     onTap: () => setPaidDate(context),
                   ),
                 ),
@@ -158,7 +159,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
                         readOnly: true,
                         enabled: paid,
                         decoration: defaultDecoration.copyWith(
-                            label: Text("Expired")))),
+                            label: Text("วันหมดอายุ")))),
               ],
             ),
           ),
@@ -169,7 +170,10 @@ class _SettingOverlayState extends State<SettingOverlay> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
               children: [
-                Text("ชำระแล้ว"),
+                Text(
+                  "ทำเครื่องหมายว่าชำระเงิน",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
                 Spacer(),
                 CupertinoSwitch(
                   value: paid,
@@ -208,7 +212,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
                         controller: overdueController,
                         readOnly: true,
                         decoration: defaultDecoration.copyWith(
-                            label: Text("Overdue")))),
+                            label: Text("ยอดชำระ")))),
               ],
             ),
           ),
@@ -219,7 +223,7 @@ class _SettingOverlayState extends State<SettingOverlay> {
               SxButton(
                 height: 45,
                 label: "บันทึกการเปลี่ยนแปลง",
-                backgroundColor: Colors.green,
+                backgroundColor: Color(0xffBD395D),
                 labelStyle: TextStyle(color: Colors.white),
                 onClick: () async {
                   final UserProfile updatedUser = UserProfile();
@@ -232,8 +236,13 @@ class _SettingOverlayState extends State<SettingOverlay> {
                     ..expired = expireDateController.text.trim()
                     ..lastPaid = lastPaidController.text.trim()
                     ..overdue = int.parse(overdueController.text.trim());
-                  await widget.controller.submitEdit(updatedUser);
-                  Navigator.pop(context);
+
+                  try {
+                    await widget.controller.submitEdit(updatedUser);
+                    Navigator.pop(context);
+                  } catch (err) {
+                    MiddelwareAlert.show(context, err);
+                  }
                 },
               ),
             ],
