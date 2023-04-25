@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_yt_app/components/alert.dart';
 import 'package:flutter_yt_app/components/button.dart';
 import 'package:flutter_yt_app/components/member_card.dart';
 import 'package:flutter_yt_app/components/payment_overlay.dart';
@@ -60,6 +61,15 @@ class _HomeState extends State<Home> {
       create: (context) => controller,
       child: Consumer<HomeController>(builder: (context, ctrl, child) {
         return Layout(
+          toolbar: Toolbar(
+            color: Colors.white,
+            leading: Row(children: [
+              SvgPicture.asset(
+                "assets/icons/yt_premium.svg",
+                width: 100,
+              ),
+            ]),
+          ),
           floatingActionButton: Button(
             child: CircleAvatar(
               radius: 36,

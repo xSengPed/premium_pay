@@ -6,7 +6,9 @@ import 'package:flutter_yt_app/components/button.dart';
 import 'package:flutter_yt_app/components/setting_overlay.dart';
 import 'package:flutter_yt_app/components/sx_button.dart';
 import 'package:flutter_yt_app/models/user_profile.dart';
+import 'package:flutter_yt_app/services/auth_service.dart';
 import 'package:flutter_yt_app/services/firestore.service.dart';
+import 'package:go_router/go_router.dart';
 
 class AdminController extends ChangeNotifier {
   List<UserProfile> users = [];
@@ -20,11 +22,15 @@ class AdminController extends ChangeNotifier {
 
   _init() async {
     try {
+      EasyLoading.show(status: "");
       await fetchMembers();
+      EasyLoading.dismiss();
     } on Exception {
       log('GENERIC ERROR');
+      EasyLoading.dismiss();
     } catch (err) {
       log('CLASSIFY ERROR');
+      EasyLoading.dismiss();
     }
   }
 
@@ -130,5 +136,17 @@ class AdminController extends ChangeNotifier {
         );
       },
     );
+  }
+
+  signOut(BuildContext context) async {
+    log("sign out");
+    try {
+      EasyLoading.show(status: "");
+      await AuthService.signOut();
+      GoRouter.of(context).go('/');
+      EasyLoading.dismiss();
+    } catch (err) {
+      EasyLoading.dismiss();
+    }
   }
 }
