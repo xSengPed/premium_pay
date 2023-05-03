@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_yt_app/components/button.dart';
-
 import 'package:flutter_yt_app/components/member_card.dart';
 
 import 'package:flutter_yt_app/components/tool_bar.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_yt_app/models/user_profile.dart';
 import 'package:flutter_yt_app/screens/admin/admin.controller.dart';
 import 'package:flutter_yt_app/screens/layout.dart';
 import 'package:provider/provider.dart';
-
 import 'package:responsive_grid/responsive_grid.dart';
 
 class Admin extends StatefulWidget {
@@ -26,6 +24,12 @@ class _AdminState extends State<Admin> {
     controller = AdminController(context);
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   List<ResponsiveGridCol> getMemberWidget(AdminController ctrl) {
@@ -68,7 +72,9 @@ class _AdminState extends State<Admin> {
               onClick: () => ctrl.signOut(context),
             ),
           ),
-          children: [...getMemberWidget(ctrl)],
+          children: [
+            ...getMemberWidget(ctrl),
+          ],
         );
       }),
     );

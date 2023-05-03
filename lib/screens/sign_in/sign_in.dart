@@ -44,12 +44,17 @@ class _SignInState extends State<SignIn> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => controller,
       child: Consumer<SignInController>(builder: (context, ctrl, child) {
         return Scaffold(
-          backgroundColor: Colors.blue,
           body: Stack(
             children: [
               Container(

@@ -26,6 +26,12 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   List<ResponsiveGridCol> getMemberWidget(HomeController ctrl) {
     return ctrl.users.map((UserProfile user) {
       return ResponsiveGridCol(
