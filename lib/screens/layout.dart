@@ -4,8 +4,9 @@ import 'package:flutter_yt_app/components/tool_bar.dart';
 import 'package:flutter_yt_app/uitls.dart';
 
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
-class Layout extends StatelessWidget {
+class Layout extends StatefulWidget {
   final List<ResponsiveGridCol>? children;
   final Widget? floatingActionButton;
   final double marginTop;
@@ -16,14 +17,32 @@ class Layout extends StatelessWidget {
       this.floatingActionButton,
       this.marginTop = 75.0,
       this.toolbar});
+
+  @override
+  State<Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<Layout> {
+  late final ScrollController controller;
+
+  @override
+  void initState() {
+    controller = ScrollController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: floatingActionButton,
+      floatingActionButton: widget.floatingActionButton,
       body: Stack(
         children: [
           Utils.getBackground(),
-          Center(
+          WebSmoothScroll(
+            controller: controller,
+            scrollOffset: 100,
+            animationDuration: 600,
+            curve: Curves.easeInOutCirc,
             child: SingleChildScrollView(
               child: Container(
                 constraints: BoxConstraints(maxWidth: 1720),
@@ -31,16 +50,16 @@ class Layout extends StatelessWidget {
                   children: [
                     ResponsiveGridCol(
                       child: SizedBox(
-                        height: marginTop,
+                        height: widget.marginTop,
                       ),
                     ),
-                    ...children!,
+                    ...widget.children!,
                   ],
                 ),
               ),
             ),
           ),
-          toolbar ?? Toolbar(),
+          widget.toolbar ?? Toolbar(),
         ],
       ),
     );
