@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:flutter_yt_app/components/tool_bar.dart';
 import 'package:flutter_yt_app/uitls.dart';
 
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class Layout extends StatefulWidget {
   final List<ResponsiveGridCol>? children;
@@ -23,14 +22,6 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
-  late final ScrollController controller;
-
-  @override
-  void initState() {
-    controller = ScrollController();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,24 +29,19 @@ class _LayoutState extends State<Layout> {
       body: Stack(
         children: [
           Utils.getBackground(),
-          WebSmoothScroll(
-            controller: controller,
-            scrollOffset: 100,
-            animationDuration: 600,
-            curve: Curves.easeInOutCirc,
-            child: SingleChildScrollView(
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 1720),
-                child: ResponsiveGridRow(
-                  children: [
-                    ResponsiveGridCol(
-                      child: SizedBox(
-                        height: widget.marginTop,
-                      ),
+          SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 1720),
+              child: ResponsiveGridRow(
+                children: [
+                  ResponsiveGridCol(
+                    child: SizedBox(
+                      height: widget.marginTop,
                     ),
-                    ...widget.children!,
-                  ],
-                ),
+                  ),
+                  ...widget.children!,
+                ],
               ),
             ),
           ),
