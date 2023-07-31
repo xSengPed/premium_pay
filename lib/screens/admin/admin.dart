@@ -54,21 +54,31 @@ class _AdminState extends State<Admin> {
         ctrl,
         child,
       ) {
-        return Layout(
-          marginTop: 75,
-          toolbar: Toolbar(
-            leading: Text("Welcome, Administrator",
-                style: TextStyle(color: Colors.white)),
-            trailing: Button(
-              child: SvgPicture.asset(
-                "assets/icons/log-out-outline.svg",
-                width: 24,
-                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-              ),
-              onClick: () => ctrl.signOut(context),
-            ),
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Color(0xFFBD395D),
+            elevation: 0,
+            child: Icon(Icons.add),
+            onPressed: () {
+              ctrl.showAddMemberOverlay(ctrl);
+            },
           ),
-          children: [...getMemberWidget(ctrl)],
+          body: Layout(
+            marginTop: 75,
+            toolbar: Toolbar(
+              leading: Text("Welcome, Administrator",
+                  style: TextStyle(color: Colors.white)),
+              trailing: Button(
+                child: SvgPicture.asset(
+                  "assets/icons/log-out-outline.svg",
+                  width: 24,
+                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                ),
+                onClick: () => ctrl.signOut(context),
+              ),
+            ),
+            children: [...getMemberWidget(ctrl)],
+          ),
         );
       }),
     );

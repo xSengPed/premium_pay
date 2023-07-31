@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_yt_app/components/add_member_overlay.dart';
 import 'package:flutter_yt_app/components/alert.dart';
 import 'package:flutter_yt_app/components/button.dart';
 import 'package:flutter_yt_app/components/middleware_alert.dart';
@@ -167,5 +168,19 @@ class AdminController extends ChangeNotifier {
         EasyLoading.dismiss();
       }
     });
+  }
+
+  Future<void> showAddMemberOverlay(
+    AdminController ctrl,
+  ) {
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      context: context,
+      builder: (context) {
+        return AddMemberOverlay(
+          controller: ctrl,
+        );
+      },
+    );
   }
 }
